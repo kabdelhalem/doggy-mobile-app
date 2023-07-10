@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import {Button, View, StyleSheet} from "react-native";
 
-export default function App() {
+import {Amplify} from "aws-amplify";
+import {
+  useAuthenticator,
+  withAuthenticator,
+} from "@aws-amplify/ui-react-native";
+
+import awsmobile from "./src/aws-exports.js";
+import {SafeAreaView} from "react-native-safe-area-context";
+Amplify.configure(awsmobile);
+
+function SignOutButton() {
+  const {signOut} = useAuthenticator();
+  return <Button onPress={signOut} title="Sign Out" />;
+}
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View style={style.container}>
+      <SignOutButton />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const style = StyleSheet.create({
+  container: {flex: 1, alignItems: "center", justifyContent: "center"},
 });
+
+export default withAuthenticator(App);
