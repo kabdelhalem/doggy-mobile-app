@@ -1,4 +1,4 @@
-import {Button, View, StyleSheet} from "react-native";
+import {Button, View} from "react-native";
 
 import {Amplify} from "aws-amplify";
 import {
@@ -17,14 +17,10 @@ function SignOutButton() {
 
 function App() {
   return (
-    <View style={style.container}>
+    <View className="flex-1 items-center justify-center ">
       <SignOutButton />
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  container: {flex: 1, alignItems: "center", justifyContent: "center"},
-});
 
 export default withAuthenticator(App);
