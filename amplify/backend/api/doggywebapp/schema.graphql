@@ -1,0 +1,37 @@
+type Feedback @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  Description: String
+  Email: String
+}
+
+type Pet @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  familiesID: ID! @index(name: "byFamilies")
+}
+
+type Event @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Num1: Boolean
+  Num2: Boolean
+  Description: String
+  Pet: Pet @hasOne
+  familiesID: ID! @index(name: "byFamilies")
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Name: String
+  familiesID: ID! @index(name: "byFamilies")
+  Email: String
+}
+
+type Families @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  Family_Name: String
+  Users: [User] @hasMany(indexName: "byFamilies", fields: ["id"])
+  Pets: [Pet] @hasMany(indexName: "byFamilies", fields: ["id"])
+  Events: [Event] @hasMany(indexName: "byFamilies", fields: ["id"])
+}
+ 
