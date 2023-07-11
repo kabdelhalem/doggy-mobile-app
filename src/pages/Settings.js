@@ -7,13 +7,18 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Button,
 } from "react-native";
 import {WrapperContext} from "./wrapper";
 import {DataStore} from "aws-amplify";
 import {Families, Pet, User} from "../models";
 import {ScrollView} from "react-native-gesture-handler";
+import {useAuthenticator} from "@aws-amplify/ui-react-native";
 // import Clipboard from "@react-native-clipboard/clipboard";
-
+function SignOutButton() {
+  const {signOut} = useAuthenticator();
+  return <Button onPress={signOut} title="Sign Out" />;
+}
 const Settings = () => {
   const {family, loading} = useContext(WrapperContext);
 
@@ -49,60 +54,64 @@ const Settings = () => {
   };
 
   return (
-    <View className="flex items-center">
-      <View className="flex flex-row items-center justify-evenly">
-        <Text className="pt-2 text-xl mr-3">Family</Text>
-        <TouchableOpacity onPress={copyToClipboard}>
-          <Image
-            className="w-5 h-5 mt-2"
-            source={require("../images/copy.png")}
-          ></Image>
-        </TouchableOpacity>
-      </View>
-      {!users ? null : (
-        <ScrollView className="w-screen h-200">
-          <FlashList
-            data={users}
-            renderItem={({item}) => (
-              <View className="flex flex-row mx-10 mt-2 divide-solid bg-white p-4 items-center rounded-lg">
-                <Image
-                  className="w-10 h-10"
-                  source={require("../images/user.png")}
-                ></Image>
-                <View className="flex flex-col ml-10">
-                  <Text>{item.Name}</Text>
-                  <Text>{item.Email}</Text>
-                </View>
-              </View>
-            )}
-            estimatedItemSize={200}
-          />
-        </ScrollView>
-      )}
-      <View className="flex flex-row">
-        <Text className="pt-2 text-xl">Pets</Text>
-      </View>
+    <SafeAreaView className="flex items-center ">
+      <View className="flex justify-between">
+        <View className="flex items-center">
+          <View className="flex flex-row items-center justify-evenly">
+            <Text className="pt-2 text-xl mr-3">Family</Text>
+            <TouchableOpacity onPress={copyToClipboard}>
+              <Image
+                className="w-5 h-5 mt-2"
+                source={require("../images/copy.png")}
+              ></Image>
+            </TouchableOpacity>
+          </View>
+          {!users ? null : (
+            <ScrollView className="w-screen h-4">
+              <FlashList
+                data={users}
+                renderItem={({item}) => (
+                  <View className="flex flex-row mx-10 mt-2 divide-solid bg-white p-4 items-center rounded-lg">
+                    <Image
+                      className="w-10 h-10"
+                      source={require("../images/user.png")}
+                    ></Image>
+                    <View className="flex flex-col ml-10">
+                      <Text>{item.Name}</Text>
+                      <Text>{item.Email}</Text>
+                    </View>
+                  </View>
+                )}
+                estimatedItemSize={200}
+              />
+            </ScrollView>
+          )}
 
-      {!pets ? null : (
-        <ScrollView className="w-screen h-200">
-          <FlashList
-            data={pets}
-            renderItem={({item}) => (
-              <View className="flex flex-row mx-10 mt-2 divide-solid bg-white p-4 items-center rounded-lg">
-                <Image
-                  className="w-10 h-10"
-                  source={require("../images/dog.png")}
-                ></Image>
-                <View className="flex flex-col ml-10">
-                  <Text>{item.Name}</Text>
-                </View>
-              </View>
-            )}
-            estimatedItemSize={200}
-          />
-        </ScrollView>
-      )}
-    </View>
+          <Text className="pt-2 text-xl">Pets</Text>
+
+          {!pets ? null : (
+            <ScrollView className="w-screen h-5">
+              <FlashList
+                data={pets}
+                renderItem={({item}) => (
+                  <View className="flex flex-row mx-10 mt-2 divide-solid bg-white p-4 items-center rounded-lg">
+                    <Image
+                      className="w-10 h-10"
+                      source={require("../images/dog.png")}
+                    ></Image>
+                    <View className="flex flex-col ml-10">
+                      <Text>{item.Name}</Text>
+                    </View>
+                  </View>
+                )}
+                estimatedItemSize={200}
+              />
+            </ScrollView>
+          )}
+          <SignOutButton />
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 
