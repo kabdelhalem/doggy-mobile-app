@@ -1,12 +1,22 @@
 import {Auth, DataStore} from "aws-amplify";
-import React, {useEffect, useState} from "react";
-import {View, Text, Button} from "react-native";
+import React, {useEffect, useMemo, useRef, useState} from "react";
+import {View, Text, Button, Alert, StyleSheet} from "react-native";
 import {Families, User} from "../models";
+import MyDatePicker from "./Components/Datepicker";
+import TimeLine from "./Components/timeline";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+  BottomSheetModalProvider,
+  BottomSheetModal,
+} from "@gorhom/bottom-sheet";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import BottomSheetComponent from "./Components/BottomSheet";
 
 function HomeScreen({navigation}) {
   const [familyName, setFamilyName] = useState(null);
 
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
 
   useEffect(() => {
     const retrieveEmail = async () => {
@@ -53,16 +63,33 @@ function HomeScreen({navigation}) {
       }
     };
 
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          onPress={() => navigation.navigate("Settings")}
+          title="Settings"
+        />
+      ),
+    });
+
     retrieveEmail();
   }, []);
 
   return (
-    <View className="flex flex-col items-center justify-center p-10 mx-auto w-screen">
-      {/* <Button
+    <>
+      <View className="flex items-center justify-center p-10">
+        {/* <Button
         title="Go to Details"
         onPress={() => navigation.navigate("Home2")}
       /> */}
-    </View>
+        <MyDatePicker setDate={setDate} />
+        <View className="mt-10"></View>
+        <TimeLine date={date} />
+
+        {/* <BottomSheetComponent /> */}
+      </View>
+      <BottomSheetComponent />
+    </>
   );
 }
 

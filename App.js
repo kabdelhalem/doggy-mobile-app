@@ -11,10 +11,12 @@ import {SafeAreaView} from "react-native-safe-area-context";
 import {Wrapper} from "./src/pages/wrapper.js";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {Families, User} from "./src/models/index.js";
 import Loading from "./src/pages/loading.js";
 import HomeScreen from "./src/pages/Home.js";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
+import Settings from "./src/pages/Settings.js";
 Amplify.configure(awsmobile);
 
 function SignOutButton() {
@@ -23,22 +25,12 @@ function SignOutButton() {
 }
 const Stack = createNativeStackNavigator();
 
-function HomeScreen2({navigation}) {
-  return (
-    <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate("Home")}
-      />
-    </View>
-  );
-}
-
 function DetailsScreen() {
+  const detailsScreenRef = useRef(null);
+
   return (
     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-      <Text>Details Screen</Text>
+      <Text ref={detailsScreenRef}>Details Screen</Text>
     </View>
   );
 }
@@ -47,6 +39,7 @@ function App() {
   const [hasFamily, setHasFamily] = useState(null);
 
   const [loading, setLoading] = useState(true);
+  // let loading = useRef(false);
 
   useEffect(() => {
     // Call this function inside an effect or any other appropriate place in your component
@@ -99,32 +92,38 @@ function App() {
         } else {
           setHasFamily(false);
         }
-        setLoading(false);
+        done();
       } catch (error) {
         console.error("Error querying families:", error);
       }
+    };
+
+    const done = () => {
+      setLoading(false);
     };
 
     retrieveEmail();
   }, []);
 
   return (
-    <Wrapper>
-      <NavigationContainer>
-        <Stack.Navigator>
-          {loading ? (
-            <Stack.Screen name="Loading" component={Loading} />
-          ) : hasFamily ? (
-            <>
-              <Stack.Screen name="Home" component={HomeScreen} />
-              <Stack.Screen name="Home2" component={HomeScreen2} />
-            </>
-          ) : (
-            <Stack.Screen name="Details" component={DetailsScreen} />
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Wrapper>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Wrapper>
+        <NavigationContainer>
+          <Stack.Navigator>
+            {loading ? (
+              <Stack.Screen name="Loading" component={Loading} />
+            ) : hasFamily ? (
+              <>
+                <Stack.Screen name="Home" component={HomeScreen} />
+                <Stack.Screen name="Settings" component={Settings} />
+              </>
+            ) : (
+              <Stack.Screen name="Details" component={DetailsScreen} />
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Wrapper>
+    </GestureHandlerRootView>
   );
 }
 
