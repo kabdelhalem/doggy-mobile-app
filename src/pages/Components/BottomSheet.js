@@ -76,68 +76,72 @@ const BottomSheetComponent = () => {
       backgroundStyle={{borderRadius: 30}}
     >
       <View className="flex w-screen">
-        <View className="flex items-center">
-          <Text className="pt-2 text-xl">Add a new event</Text>
-        </View>
-
-        <View className="flex flex-row items-center justify-evenly pt-10">
-          <Switch
-            trackColor={{false: "#767577", true: "#81b0ff"}}
-            thumbColor={num1 ? "#f4f3f4" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleNum1}
-            value={num1}
-          />
-          <Text className="text-lg ml-10">Number 1</Text>
-        </View>
-        <View className="flex flex-row items-center justify-evenly pt-5">
-          <Switch
-            trackColor={{false: "#767577", true: "#81b0ff"}}
-            thumbColor={num2 ? "#f4f3f4" : "#f4f3f4"}
-            ios_backgroundColor="#3e3e3e"
-            onValueChange={toggleNum2}
-            value={num2}
-          />
-          <Text className="text-lg ml-10">Number 2</Text>
-        </View>
-        <View className="flex items-center">
-          <PickerIOS
-            selectedValue={selectedPet}
-            onValueChange={(itemValue, itemIndex) => setSelectedPet(itemValue)}
-            style={{height: 150, width: 300}}
-          >
-            {!pets
-              ? null
-              : pets.map((pet) => (
-                  <Picker.Item key={pet} label={pet.Name} value={pet} />
-                ))}
-          </PickerIOS>
-        </View>
-        <View className="flex items-center mt-20">
-          <View className="w-3/5">
-            <TextInput
-              className="text-lg"
-              multiline
-              onChangeText={onChangeDesc}
-              value={desc}
-              placeholder="Write a Description"
-            />
+        <View className="flex justify-between">
+          <View className="flex items-center">
+            <Text className="pt-2 text-xl">Add a new event</Text>
           </View>
-        </View>
-        <View class="flex flex-row justify-evenly pt-10">
-          <Button
-            title="Submit"
-            onPress={() => {
-              handleSubmit();
-            }}
-            className=""
-          ></Button>
 
-          <Button
-            title="Cancel"
-            onPress={() => handleClosePress()}
-            className=""
-          ></Button>
+          <View className="flex flex-row items-center justify-evenly pt-10">
+            <Switch
+              trackColor={{false: "#767577", true: "#81b0ff"}}
+              thumbColor={num1 ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleNum1}
+              value={num1}
+            />
+            <Text className="text-lg ml-10">Number 1</Text>
+          </View>
+          <View className="flex flex-row items-center justify-evenly pt-5">
+            <Switch
+              trackColor={{false: "#767577", true: "#81b0ff"}}
+              thumbColor={num2 ? "#f4f3f4" : "#f4f3f4"}
+              ios_backgroundColor="#3e3e3e"
+              onValueChange={toggleNum2}
+              value={num2}
+            />
+            <Text className="text-lg ml-10">Number 2</Text>
+          </View>
+          <View className="flex items-center">
+            <PickerIOS
+              selectedValue={selectedPet}
+              onValueChange={(itemValue, itemIndex) =>
+                setSelectedPet(itemValue)
+              }
+              style={{height: 150, width: 300}}
+            >
+              {!pets
+                ? null
+                : pets.map((pet) => (
+                    <Picker.Item key={pet} label={pet.Name} value={pet} />
+                  ))}
+            </PickerIOS>
+          </View>
+          <View className="flex items-center mt-20">
+            <View className="w-3/5">
+              <TextInput
+                className="text-lg"
+                multiline
+                onChangeText={onChangeDesc}
+                value={desc}
+                placeholder="Write a Description"
+              />
+            </View>
+          </View>
+          <View class="flex flex-row justify-evenly">
+            <Button
+              title="Submit"
+              onPress={() => {
+                handleSubmit();
+              }}
+              className=""
+            ></Button>
+
+            <Button
+              title="Cancel"
+              onPress={() => handleClosePress()}
+              className=""
+            ></Button>
+          </View>
         </View>
       </View>
     </BottomSheet>
