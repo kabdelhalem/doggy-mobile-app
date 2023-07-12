@@ -17,7 +17,7 @@ const TimeLine = (props) => {
       const familyId = family.id;
 
       const currentDate = new Date(date);
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setDate(currentDate.getDate());
       console.log("selected date = ", currentDate);
 
       // const events = await DataStore.query(Event, (e) =>

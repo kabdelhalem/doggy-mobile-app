@@ -9,7 +9,7 @@ import {
 import awsmobile from "./src/aws-exports.js";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Wrapper} from "./src/pages/wrapper.js";
-import {NavigationContainer} from "@react-navigation/native";
+import {NavigationContainer, NavigationActions} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {useEffect, useRef, useState} from "react";
 import {Families, User} from "./src/models/index.js";
@@ -17,6 +17,7 @@ import Loading from "./src/pages/loading.js";
 import HomeScreen from "./src/pages/Home.js";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import Settings from "./src/pages/Settings.js";
+import GetStarted from "./src/pages/GetStarted.js";
 Amplify.configure(awsmobile);
 
 function SignOutButton() {
@@ -35,7 +36,7 @@ function DetailsScreen() {
   );
 }
 
-function App() {
+function App({navigation}) {
   const [hasFamily, setHasFamily] = useState(null);
 
   const [loading, setLoading] = useState(true);
@@ -109,7 +110,7 @@ function App() {
     <GestureHandlerRootView style={{flex: 1}}>
       <Wrapper>
         <NavigationContainer>
-          <Stack.Navigator>
+          <Stack.Navigator ref={(x) => (global.stackNavigator = x)}>
             {loading ? (
               <Stack.Screen name="Loading" component={Loading} />
             ) : hasFamily ? (
@@ -118,7 +119,11 @@ function App() {
                 <Stack.Screen name="Settings" component={Settings} />
               </>
             ) : (
-              <Stack.Screen name="Details" component={DetailsScreen} />
+              <Stack.Screen
+                name="Get Started"
+                component={GetStarted}
+                screenProps={{rootNavigation: navigation}}
+              />
             )}
           </Stack.Navigator>
         </NavigationContainer>
