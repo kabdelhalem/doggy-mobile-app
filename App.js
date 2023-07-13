@@ -63,40 +63,50 @@ function App({navigation}) {
 
     // Perform the query
     const queryUser = async (email) => {
-      try {
-        // Find the user with the target email address
-        const users = await DataStore.query(User);
-
-        console.log(users.filter((u) => u.Email === email)[0]);
-
-        if (users.filter((u) => u.Email === email).length === 0) {
+      const subscription = DataStore.observeQuery(
+        User,
+        (u) => u.and((u) => [u.Email.eq(email)]),
+        {}
+      ).subscribe((snapshot) => {
+        const {items, isSynced} = snapshot;
+        if (items.length === 0) {
           console.log("User not found");
           setHasFamily(false);
           setLoading(false);
-          return;
         } else {
-          queryFamily(users.filter((u) => u.Email === email)[0]);
+          queryFamily(items[0]);
         }
-      } catch (error) {
-        console.error("Error querying users:", error);
-      }
+      });
     };
 
     const queryFamily = async (user) => {
-      try {
-        const families = await DataStore.query(Families, user.familiesID);
-
-        // Log the families that include the user
-        console.log("Families that include the user:", families);
-        if (families) {
+      const subscription = DataStore.observeQuery(Families, (f) =>
+        f.and((f) => [f.id.eq(user.familiesID)])
+      ).subscribe((snapshot) => {
+        const {items, isSynced} = snapshot;
+        console.log("Families that include the user:", items);
+        if (items.length !== 0) {
           setHasFamily(true);
         } else {
           setHasFamily(false);
         }
         done();
-      } catch (error) {
-        console.error("Error querying families:", error);
-      }
+      });
+
+      // try {
+      //   const families = await DataStore.query(Families, user.familiesID);
+
+      //   // Log the families that include the user
+      //   console.log("Families that include the user:", families);
+      //   if (families) {
+      //     setHasFamily(true);
+      //   } else {
+      //     setHasFamily(false);
+      //   }
+      //   done();
+      // } catch (error) {
+      //   console.error("Error querying families:", error);
+      // }
     };
 
     const done = () => {
