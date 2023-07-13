@@ -12,8 +12,9 @@ import {
 import {WrapperContext} from "./wrapper";
 import {DataStore} from "aws-amplify";
 import {Families, Pet, User} from "../models";
-import {ScrollView} from "react-native-gesture-handler";
+import {ScrollView, TextInput} from "react-native-gesture-handler";
 import {useAuthenticator} from "@aws-amplify/ui-react-native";
+import Modal from "react-native-modal";
 // import Clipboard from "@react-native-clipboard/clipboard";
 function SignOutButton() {
   const {signOut} = useAuthenticator();
@@ -67,6 +68,27 @@ const Settings = () => {
     // Clipboard.setString(family.id);
   };
 
+  const toggleAddNewDog = () => {
+    setAddNewDog(!addNewDog);
+  };
+
+  const [newDogName, onChangeNewDogName] = React.useState("");
+
+  const handleAddNewDog = async () => {
+    try {
+      await DataStore.save(
+        new Pet({
+          Name: newDogName,
+          familiesID: family.id,
+        })
+      );
+      onChangeNewDogName("");
+      toggleAddNewDog();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <SafeAreaView className="flex items-center ">
       <View className="flex justify-between">
@@ -104,7 +126,31 @@ const Settings = () => {
           )}
 
           <Text className="pt-2 text-xl">Pets</Text>
-
+          <Button title="Add New" onPress={toggleAddNewDog}></Button>
+          <Modal isVisible={addNewDog}>
+            <View className="flex items-center bg-white rounded-2xl">
+              <Text className="text-xl mt-5">Add a new Dog</Text>
+              <TextInput
+                className="text-lg mt-3"
+                onChangeText={onChangeNewDogName}
+                value={newDogName}
+                placeholder="Milou"
+              ></TextInput>
+              <View className="flex flex-row justify-between my-5">
+                <Button
+                  title="Cancel"
+                  onPress={() => {
+                    toggleAddNewDog();
+                    onChangeNewDogName("");
+                  }}
+                ></Button>
+                <Button
+                  title="Submit"
+                  onPress={() => handleAddNewDog()}
+                ></Button>
+              </View>
+            </View>
+          </Modal>
           {!pets ? null : (
             <ScrollView
               style={{height: 20, width: Dimensions.get("screen").width}}
