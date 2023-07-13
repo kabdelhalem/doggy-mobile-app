@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Milou",
-    "slug": "Milou",
+    "name": "Milou: A Dog Tracking App",
+    "slug": "milou-a-dog-tracking-app",
     "privacy": "public",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,27 +12,34 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
+      "bitcode": false,
       "supportsTablet": true,
       "bundleIdentifier": "com.kabdelhalem.milou",
       "entitlements": {
-        "com.apple.developer.applesignin": ["Default"]
+        "com.apple.developer.applesignin": [
+          "Default"
+        ]
       }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kabdelhalem.milou"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "dfbd8261-163a-4071-830b-fb922c96b28f"
+        "projectId": "9996bbfc-4955-4260-b655-dedf2572c838"
       }
-    }
+    },
+    "owner": "kabdelhalem"
   }
 }

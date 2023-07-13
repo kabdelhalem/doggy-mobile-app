@@ -6,7 +6,6 @@ import {
   withAuthenticator,
 } from "@aws-amplify/ui-react-native";
 
-import awsmobile from "./src/aws-exports.js";
 import {SafeAreaView} from "react-native-safe-area-context";
 import {Wrapper} from "./src/pages/wrapper.js";
 import {NavigationContainer, NavigationActions} from "@react-navigation/native";
@@ -18,6 +17,7 @@ import HomeScreen from "./src/pages/Home.js";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import Settings from "./src/pages/Settings.js";
 import GetStarted from "./src/pages/GetStarted.js";
+import awsmobile from "./src/aws-exports.js";
 Amplify.configure(awsmobile);
 
 function SignOutButton() {

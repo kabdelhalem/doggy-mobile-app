@@ -62,10 +62,12 @@ const JoinFamily = ({navigation}) => {
     </View>
   );
 };
-const AddFamily = ({navigation}) => {
+const AddFamily = ({navigation, route}) => {
   const [familyName, onChangeFamilyName] = React.useState("");
   const [name, onChangeName] = React.useState("");
   const [email, setEmail] = useState(null);
+
+  const exitToHome = route.params;
 
   useEffect(() => {
     const retrieveEmail = async () => {
@@ -100,7 +102,7 @@ const AddFamily = ({navigation}) => {
         Email: email,
       })
     );
-    navigation.navigate("Home");
+    props.exitToHome();
   };
 
   return (
@@ -131,6 +133,10 @@ const AddFamily = ({navigation}) => {
 };
 
 const GetStarted = ({navigation}) => {
+  const exitToHome = () => {
+    navigation.navigate("Home");
+  };
+
   return (
     <Tab.Navigator>
       <Tab.Screen
@@ -138,7 +144,11 @@ const GetStarted = ({navigation}) => {
         component={JoinFamily}
         navigation={navigation}
       />
-      <Tab.Screen name="Create a Family" component={AddFamily} />
+      <Tab.Screen
+        name="Create a Family"
+        initialParams={{exitToHome}}
+        component={AddFamily}
+      />
     </Tab.Navigator>
   );
 };

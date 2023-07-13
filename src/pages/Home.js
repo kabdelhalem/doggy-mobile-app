@@ -2,7 +2,7 @@ import {Auth, DataStore} from "aws-amplify";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {View, Text, Button, Alert, StyleSheet} from "react-native";
 import {Families, User} from "../models";
-import MyDatePicker from "./Components/Datepicker";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import TimeLine from "./Components/timeline";
 import BottomSheet, {
   BottomSheetScrollView,
@@ -16,7 +16,7 @@ import BottomSheetComponent from "./Components/BottomSheet";
 function HomeScreen({navigation}) {
   const [familyName, setFamilyName] = useState(null);
 
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = React.useState(new Date());
   console.log("createdd date", date);
 
   useEffect(() => {
@@ -76,6 +76,11 @@ function HomeScreen({navigation}) {
     retrieveEmail();
   }, []);
 
+  const changeSelectedDate = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    console.log(setDate(currentDate));
+  };
+
   return (
     <>
       <View className="flex items-center justify-center p-10">
@@ -83,7 +88,30 @@ function HomeScreen({navigation}) {
         title="Go to Details"
         onPress={() => navigation.navigate("Home2")}
       /> */}
-        <MyDatePicker setDate={setDate} />
+        <DateTimePicker
+          value={date}
+          mode="date"
+          placeholder="select date"
+          format="YYYY-MM-DD"
+          minDate="2016-05-01"
+          maxDate="2025-06-01"
+          confirmBtnText="Confirm"
+          cancelBtnText="Cancel"
+          customStyles={{
+            dateIcon: {
+              position: "absolute",
+              left: 0,
+              top: 4,
+              marginLeft: 0,
+            },
+            dateInput: {
+              marginLeft: 36,
+            },
+            // ... You can check the source to find the other keys.
+          }}
+          onChange={changeSelectedDate}
+        />
+        <Text>{date.toString()}</Text>
         <View className="mt-10"></View>
         <TimeLine date={date} />
 
