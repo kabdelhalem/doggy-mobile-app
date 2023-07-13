@@ -3,7 +3,7 @@
     "name": "Milou: A Dog Tracking App",
     "slug": "milou-a-dog-tracking-app",
     "privacy": "public",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,17 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "bitcode": false,
       "supportsTablet": true,
       "bundleIdentifier": "com.kabdelhalem.milou",
       "entitlements": {
-        "com.apple.developer.applesignin": [
-          "Default"
-        ]
+        "com.apple.developer.applesignin": ["Default"]
       }
     },
     "android": {
