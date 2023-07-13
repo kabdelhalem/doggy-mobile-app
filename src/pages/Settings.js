@@ -31,18 +31,32 @@ const Settings = () => {
     const fetchData = async () => {
       const familyId = family.id;
 
-      try {
-        const family = await DataStore.query(Families, (u) =>
-          u.id.eq(familyId)
-        );
-        console.log("FAMILIES", await family[0].Users.values);
-        setUsers(await family[0].Users.values);
-        setPets(await family[0].Pets.values);
-      } catch (error) {
-        console.error("Error retrieving users:", error);
-      }
+      const UserSubscription = DataStore.observeQuery(User, (f) =>
+        f.and((f) => [f.familiesID.eq(familyId)])
+      ).subscribe((snapshot) => {
+        const {items, isSynced} = snapshot;
+        console.log("FAMILIES", items);
+        setUsers(items);
+      });
 
-      console.log("users: ", users);
+      const PetSubscription = DataStore.observeQuery(Pet, (f) =>
+        f.and((f) => [f.familiesID.eq(familyId)])
+      ).subscribe((snapshot) => {
+        const {items, isSynced} = snapshot;
+        console.log("FAMILIES", items);
+        setPets(items);
+      });
+
+      // try {
+      //   const family = await DataStore.query(Families, (u) =>
+      //     u.id.u.id.eq(familyId)
+      //   );
+      //   console.log("FAMILIES", await family[0].Users.values);
+      //   setUsers(await family[0].Users.values);
+      //   setPets(await family[0].Pets.values);
+      // } catch (error) {
+      //   console.error("Error retrieving users:", error);
+      // }
     };
     if (!loading) {
       fetchData();
