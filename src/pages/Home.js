@@ -111,7 +111,6 @@ function HomeScreen({navigation}) {
           }}
           onChange={changeSelectedDate}
         />
-        <Text>{date.toString()}</Text>
         <View className="mt-10"></View>
         <TimeLine date={date} />
 

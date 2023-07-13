@@ -10,34 +10,22 @@ const TimeLine = (props) => {
   const {family, loading} = useContext(WrapperContext);
 
   const [events, setEvents] = useState(null);
-  const [pets, setPets] = useState([]);
+  const [pets, setPets] = useState(null);
 
   useEffect(() => {
     const queryEvents = async () => {
       const familyId = family.id;
 
       const currentDate = new Date(date);
-      currentDate.setDate(currentDate.getDate());
       console.log("selected date = ", currentDate);
-
-      // const events = await DataStore.query(Event, (e) =>
-      //   e.and((e) => [
-      //     e.familiesID.eq(familyId),
-      //     // e.updatedAt.contains(localDate.split("T")[0]),
-      //   ])
-      // );
 
       const subscription = DataStore.observeQuery(
         Event,
-        (e) =>
-          e.and((e) => [
-            e.familiesID.eq(familyId),
-            // e.updatedAt.contains(localDate.split("T")[0]),
-          ]),
+        (e) => e.and((e) => [e.familiesID.eq(familyId)]),
         {}
       ).subscribe((snapshot) => {
         const {items, isSynced} = snapshot;
-        console.log(`[Snapshot] ${items}, isSynced: ${isSynced}`);
+        // console.log(`[Snapshot] ${items}, isSynced: ${isSynced}`);
 
         const sortedItems = [...items].sort((b, a) => {
           // Assuming updatedAt is a Date object, use getTime() to compare timestamps
@@ -67,21 +55,35 @@ const TimeLine = (props) => {
       );
       console.log("petIds:", petIds);
       const pets = await DataStore.query(Pet, (u) =>
-        u.and((u) => [u.familiesID.eq(familyId), u.id.contains(petIds)])
+        u.and((u) => [u.id.contains(petIds)])
       );
       console.log("Pets in the family:", pets);
       setPets(pets);
     };
+
     if (!loading) {
       queryEvents();
     }
   }, [loading, date]);
 
+  useEffect(() => {
+    const fetchPets = async () => {
+      const petIds = Array.from(
+        new Set(events.map((event) => event.eventPetId))
+      );
+      console.log("petIds:", petIds);
+      const pets = await DataStore.query(Pet, (u) =>
+        u.and((u) => [u.id.contains(petIds)])
+      );
+      console.log("Pets in the family:", pets);
+      setPets(pets);
+    };
+  }, [events]);
+
   return (
     <View className="relative border-l border-gray-200 dark:border-gray-700">
-      {!events && !pets
-        ? null
-        : events.map((event) => {
+      {events && pets
+        ? events.map((event) => {
             const pet = pets.find((p) => p.id === event.eventPetId);
 
             return (
@@ -92,23 +94,24 @@ const TimeLine = (props) => {
                     timeStyle: "short",
                   })}
                 </Text>
-                {!pet ? null : (
-                  <Text className="text-lg font-semibold text-gray-900 dark:text-white">
-                    {!event.Num1 && !event.Num2
-                      ? `${pet.Name} went outside!`
-                      : event.Num1 && !event.Num2
-                      ? `${pet.Name} went Number 1!`
-                      : !event.Num1 && event.Num2
-                      ? `${pet.Name} went Number 2!`
-                      : `${pet.Name} went Number 1 and Number 2!`}
-                  </Text>
-                )}
+
+                <Text className="text-lg font-semibold text-gray-900 dark:text-white">
+                  {!event.Num1 && !event.Num2
+                    ? `${pet.Name} went outside!`
+                    : event.Num1 && !event.Num2
+                    ? `${pet.Name} went Number 1!`
+                    : !event.Num1 && event.Num2
+                    ? `${pet.Name} went Number 2!`
+                    : `${pet.Name} went Number 1 and Number 2!`}
+                </Text>
+
                 <Text className="text-base font-normal text-gray-500 dark:text-gray-400">
                   {event.Description}
                 </Text>
               </View>
             );
-          })}
+          })
+        : null}
     </View>
   );
 };
