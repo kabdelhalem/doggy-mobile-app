@@ -84,6 +84,8 @@ const BottomSheetComponent = () => {
   const toggleNum1 = () => setNum1(!num1);
   const toggleNum2 = () => setNum2(!num2);
 
+  const [showFooter, setShowFooter] = React.useState(true);
+
   const bottomSheetRef = useRef(null);
 
   const snapPoints = ["10%", "90%"];
@@ -95,20 +97,15 @@ const BottomSheetComponent = () => {
 
   const renderFooter = useCallback(
     (props) => (
-      <BottomSheetFooter {...props}>
-        <View class="flex flex-row justify-between p-10 m-3 rounded-xl ">
+      <BottomSheetFooter {...props} bottomInset={10}>
+        <View class="flex flex-row justify-between">
           <Button
             title="Submit"
             onPress={() => {
               handleSubmit();
             }}
-            className=""
           ></Button>
-          <Button
-            title="Cancel"
-            onPress={() => handleClosePress()}
-            className=""
-          ></Button>
+          <Button title="Cancel" onPress={() => handleClosePress()}></Button>
         </View>
       </BottomSheetFooter>
     ),
@@ -122,7 +119,14 @@ const BottomSheetComponent = () => {
       snapPoints={snapPoints}
       backgroundStyle={{borderRadius: 30}}
       onPress={Keyboard.dismiss}
-      footerComponent={pets.length > 0 ? renderFooter : null}
+      footerComponent={pets.length > 0 && showFooter ? renderFooter : null}
+      onChange={(index) => {
+        if (index === 0) {
+          setShowFooter(false);
+        } else {
+          setShowFooter(true);
+        }
+      }}
     >
       {pets.length > 0 ? (
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
