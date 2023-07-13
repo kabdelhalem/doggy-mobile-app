@@ -35,7 +35,7 @@ const Settings = () => {
         const family = await DataStore.query(Families, (u) =>
           u.id.eq(familyId)
         );
-        console.log(await family[0].Users.values);
+        console.log("FAMILIES", await family[0].Users.values);
         setUsers(await family[0].Users.values);
         setPets(await family[0].Pets.values);
       } catch (error) {
@@ -67,7 +67,9 @@ const Settings = () => {
             </TouchableOpacity>
           </View>
           {!users ? null : (
-            <ScrollView className="w-screen h-4">
+            <ScrollView
+              style={{height: 20, width: Dimensions.get("screen").width}}
+            >
               <FlashList
                 data={users}
                 renderItem={({item}) => (
@@ -90,7 +92,9 @@ const Settings = () => {
           <Text className="pt-2 text-xl">Pets</Text>
 
           {!pets ? null : (
-            <ScrollView className="w-screen h-5">
+            <ScrollView
+              style={{height: 20, width: Dimensions.get("screen").width}}
+            >
               <FlashList
                 data={pets}
                 renderItem={({item}) => (

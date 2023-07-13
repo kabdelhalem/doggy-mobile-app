@@ -78,6 +78,7 @@ const TimeLine = (props) => {
       console.log("Pets in the family:", pets);
       setPets(pets);
     };
+    fetchPets();
   }, [events]);
 
   return (
