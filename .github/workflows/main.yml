@@ -25,4 +25,4 @@ jobs:
         run: yarn install
 
       - name: 🚀 Create build
-        run: eas build --profile production --platform ios
+        run: eas build --profile production --platform ios --non-interactive
