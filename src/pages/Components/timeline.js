@@ -79,7 +79,7 @@ const TimeLine = (props) => {
 
   return (
     <View className="relative border-l border-gray-200 dark:border-gray-700">
-      {!events
+      {!events && !pets
         ? null
         : events.map((event) => {
             const pet = pets.find((p) => p.id === event.eventPetId);
