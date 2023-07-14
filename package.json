@@ -26,6 +26,7 @@
     "aws-amplify": "^5.3.3",
     "core-js": "^3.31.1",
     "expo": "^49.0.0",
+    "expo-clipboard": "~4.3.0",
     "expo-dev-client": "~2.4.6",
     "expo-splash-screen": "~0.20.4",
     "expo-status-bar": "~1.6.0",

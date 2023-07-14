@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
   Button,
+  Alert,
 } from "react-native";
 import {WrapperContext} from "./wrapper";
 import {DataStore} from "aws-amplify";
@@ -15,7 +16,7 @@ import {Families, Pet, User} from "../models";
 import {ScrollView, TextInput} from "react-native-gesture-handler";
 import {useAuthenticator} from "@aws-amplify/ui-react-native";
 import Modal from "react-native-modal";
-// import Clipboard from "@react-native-clipboard/clipboard";
+import * as Clipboard from "expo-clipboard";
 function SignOutButton() {
   const {signOut} = useAuthenticator();
   return <Button onPress={signOut} title="Sign Out" />;
@@ -65,7 +66,12 @@ const Settings = () => {
   }, [loading]);
 
   const copyToClipboard = () => {
-    // Clipboard.setString(family.id);
+    Clipboard.setStringAsync(family.id);
+    Alert.alert(
+      "Family ID Copied",
+      "Send this id to invite others to your family",
+      [{text: "OK", onPress: () => null}]
+    );
   };
 
   const toggleAddNewDog = () => {
