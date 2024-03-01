@@ -1,4 +1,5 @@
-import {Auth, DataStore} from "aws-amplify";
+import {DataStore} from "aws-amplify/datastore";
+import {getCurrentUser, fetchAuthSession} from "aws-amplify/auth";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {View, Text, Button, Alert, StyleSheet} from "react-native";
 import {Families, User} from "../models";
@@ -23,16 +24,13 @@ function HomeScreen({navigation}) {
 
   useEffect(() => {
     const retrieveEmail = async () => {
-      Auth.currentAuthenticatedUser()
-        .then((user) => {
-          // Access the user's email from the user object
-          const email = user.attributes.email;
-          console.log("User's email:", email);
-          queryUser(email);
-        })
-        .catch((error) => {
-          console.log("Error retrieving user:", error);
-        });
+      try {
+        const {tokens: session} = await fetchAuthSession();
+        console.log("The session: ", session.idToken.payload.email);
+        queryUser(session.idToken.payload.email);
+      } catch (error) {
+        console.log("Error retrieving user:", error);
+      }
     };
     const queryUser = async (email) => {
       try {
