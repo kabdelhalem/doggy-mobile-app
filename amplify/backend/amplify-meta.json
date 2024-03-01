@@ -1,0 +1,93 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-doggywebapp-dev-10704-authRole",
+      "UnauthRoleArn": "arn:aws:iam::890817599110:role/amplify-doggywebapp-dev-10704-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::890817599110:role/amplify-doggywebapp-dev-10704-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-doggywebapp-dev-10704-deployment",
+      "UnauthRoleName": "amplify-doggywebapp-dev-10704-unauthRole",
+      "StackName": "amplify-doggywebapp-dev-10704",
+      "StackId": "arn:aws:cloudformation:us-east-1:890817599110:stack/amplify-doggywebapp-dev-10704/9d5ef390-1edf-11ee-8129-0e36c8cd403d",
+      "AmplifyAppId": "d1o6uxep4c5mzw"
+    }
+  },
+  "api": {
+    "doggywebapp": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            },
+            "authenticationType": "API_KEY"
+          }
+        },
+        "GraphQLAPIIdOutput": "foogz4fnonhhjkm7wozsvbg4jm",
+        "GraphQLAPIEndpointOutput": "https://ovyjtq2cmfetljgw24xin6l4um.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-kr7h7yhm4nglrlzswnrf4h6rba"
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync",
+      "lastPushTimeStamp": "2024-02-29T23:42:15.895Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-doggywebapp-dev-10704-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apidoggywebapp"
+      }
+    }
+  },
+  "auth": {
+    "doggywebapp54eb1a31": {
+      "customAuth": false,
+      "dependsOn": [],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "OFF",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "socialProviders": [
+          "APPLE"
+        ],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito",
+      "output": {
+        "UserPoolId": "us-east-1_d9H50UpPV",
+        "AppClientIDWeb": "3tre4esungbim6a99bi664as38",
+        "AppClientID": "48huma0jtu7ebfhks8li5k2g3f",
+        "HostedUIDomain": "a9jvecyprpc2-dev",
+        "IdentityPoolId": "us-east-1:923c7501-0c7e-4abe-b945-a87106ba35c0",
+        "UserPoolArn": "arn:aws:cognito-idp:us-east-1:890817599110:userpool/us-east-1_d9H50UpPV",
+        "IdentityPoolName": "doggywebapp54eb1a31_identitypool_54eb1a31__dev",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"exp://192.168.1.9:8081/\",\"myapp://\"],\"LogoutURLs\":[\"exp://192.168.1.9:8081/\",\"myapp://\"]}",
+        "UserPoolName": "doggywebapp54eb1a31_userpool_54eb1a31"
+      },
+      "lastPushTimeStamp": "2024-02-29T23:42:15.898Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-doggywebapp-dev-10704-deployment/amplify-cfn-templates/auth/doggywebapp54eb1a31-cloudformation-template.json",
+        "logicalId": "authdoggywebapp54eb1a31"
+      },
+      "lastPushDirHash": "9tDD9xeM4361dBWHkz+O6+eRSbU="
+    }
+  }
+}

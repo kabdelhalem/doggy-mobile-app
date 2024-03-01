@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-doggywebapp-dev-10704-authRole",
+      "UnauthRoleArn": "arn:aws:iam::890817599110:role/amplify-doggywebapp-dev-10704-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::890817599110:role/amplify-doggywebapp-dev-10704-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-doggywebapp-dev-10704-deployment",
+      "UnauthRoleName": "amplify-doggywebapp-dev-10704-unauthRole",
+      "StackName": "amplify-doggywebapp-dev-10704",
+      "StackId": "arn:aws:cloudformation:us-east-1:890817599110:stack/amplify-doggywebapp-dev-10704/9d5ef390-1edf-11ee-8129-0e36c8cd403d",
+      "AmplifyAppId": "d1o6uxep4c5mzw"
+    },
+    "categories": {
+      "auth": {
+        "doggywebapp54eb1a31": {}
+      }
+    }
+  }
+}

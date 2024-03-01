@@ -1,0 +1,553 @@
+type Feedback @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  Description: String
+  Email: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Pet @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  familiesID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Event @aws_iam @aws_api_key {
+  id: ID!
+  Num1: Boolean
+  Num2: Boolean
+  Description: String
+  Pet: Pet
+  familiesID: ID!
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  eventPetId: ID
+}
+
+type User @aws_iam @aws_api_key {
+  id: ID!
+  Name: String
+  familiesID: ID!
+  Email: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Families @aws_iam @aws_api_key {
+  id: ID!
+  Family_Name: String
+  Users(filter: ModelUserFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelUserConnection
+  Pets(filter: ModelPetFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelPetConnection
+  Events(filter: ModelEventFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelEventConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelFeedbackConnection @aws_api_key @aws_iam {
+  items: [Feedback]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelFeedbackFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  Description: ModelStringInput
+  Email: ModelStringInput
+  and: [ModelFeedbackFilterInput]
+  or: [ModelFeedbackFilterInput]
+  not: ModelFeedbackFilterInput
+  _deleted: ModelBooleanInput
+}
+
+type Query {
+  getFeedback(id: ID!): Feedback @aws_api_key @aws_iam
+  listFeedbacks(filter: ModelFeedbackFilterInput, limit: Int, nextToken: String): ModelFeedbackConnection @aws_api_key @aws_iam
+  syncFeedbacks(filter: ModelFeedbackFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelFeedbackConnection @aws_api_key @aws_iam
+  getPet(id: ID!): Pet @aws_api_key @aws_iam
+  listPets(filter: ModelPetFilterInput, limit: Int, nextToken: String): ModelPetConnection @aws_api_key @aws_iam
+  syncPets(filter: ModelPetFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelPetConnection @aws_api_key @aws_iam
+  petsByFamiliesID(familiesID: ID!, sortDirection: ModelSortDirection, filter: ModelPetFilterInput, limit: Int, nextToken: String): ModelPetConnection @aws_api_key @aws_iam
+  getEvent(id: ID!): Event @aws_api_key @aws_iam
+  listEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String): ModelEventConnection @aws_api_key @aws_iam
+  syncEvents(filter: ModelEventFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelEventConnection @aws_api_key @aws_iam
+  eventsByFamiliesID(familiesID: ID!, sortDirection: ModelSortDirection, filter: ModelEventFilterInput, limit: Int, nextToken: String): ModelEventConnection @aws_api_key @aws_iam
+  getUser(id: ID!): User @aws_api_key @aws_iam
+  listUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_iam
+  syncUsers(filter: ModelUserFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelUserConnection @aws_api_key @aws_iam
+  usersByFamiliesID(familiesID: ID!, sortDirection: ModelSortDirection, filter: ModelUserFilterInput, limit: Int, nextToken: String): ModelUserConnection @aws_api_key @aws_iam
+  getFamilies(id: ID!): Families @aws_api_key @aws_iam
+  listFamilies(filter: ModelFamiliesFilterInput, limit: Int, nextToken: String): ModelFamiliesConnection @aws_api_key @aws_iam
+  syncFamilies(filter: ModelFamiliesFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelFamiliesConnection @aws_api_key @aws_iam
+}
+
+input ModelFeedbackConditionInput {
+  Name: ModelStringInput
+  Description: ModelStringInput
+  Email: ModelStringInput
+  and: [ModelFeedbackConditionInput]
+  or: [ModelFeedbackConditionInput]
+  not: ModelFeedbackConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateFeedbackInput {
+  id: ID
+  Name: String
+  Description: String
+  Email: String
+  _version: Int
+}
+
+input UpdateFeedbackInput {
+  id: ID!
+  Name: String
+  Description: String
+  Email: String
+  _version: Int
+}
+
+input DeleteFeedbackInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createFeedback(input: CreateFeedbackInput!, condition: ModelFeedbackConditionInput): Feedback @aws_api_key @aws_iam
+  updateFeedback(input: UpdateFeedbackInput!, condition: ModelFeedbackConditionInput): Feedback @aws_api_key @aws_iam
+  deleteFeedback(input: DeleteFeedbackInput!, condition: ModelFeedbackConditionInput): Feedback @aws_api_key @aws_iam
+  createPet(input: CreatePetInput!, condition: ModelPetConditionInput): Pet @aws_api_key @aws_iam
+  updatePet(input: UpdatePetInput!, condition: ModelPetConditionInput): Pet @aws_api_key @aws_iam
+  deletePet(input: DeletePetInput!, condition: ModelPetConditionInput): Pet @aws_api_key @aws_iam
+  createEvent(input: CreateEventInput!, condition: ModelEventConditionInput): Event @aws_api_key @aws_iam
+  updateEvent(input: UpdateEventInput!, condition: ModelEventConditionInput): Event @aws_api_key @aws_iam
+  deleteEvent(input: DeleteEventInput!, condition: ModelEventConditionInput): Event @aws_api_key @aws_iam
+  createUser(input: CreateUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  updateUser(input: UpdateUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  deleteUser(input: DeleteUserInput!, condition: ModelUserConditionInput): User @aws_api_key @aws_iam
+  createFamilies(input: CreateFamiliesInput!, condition: ModelFamiliesConditionInput): Families @aws_api_key @aws_iam
+  updateFamilies(input: UpdateFamiliesInput!, condition: ModelFamiliesConditionInput): Families @aws_api_key @aws_iam
+  deleteFamilies(input: DeleteFamiliesInput!, condition: ModelFamiliesConditionInput): Families @aws_api_key @aws_iam
+}
+
+input ModelSubscriptionFeedbackFilterInput {
+  id: ModelSubscriptionIDInput
+  Name: ModelSubscriptionStringInput
+  Description: ModelSubscriptionStringInput
+  Email: ModelSubscriptionStringInput
+  and: [ModelSubscriptionFeedbackFilterInput]
+  or: [ModelSubscriptionFeedbackFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type Subscription {
+  onCreateFeedback(filter: ModelSubscriptionFeedbackFilterInput): Feedback @aws_subscribe(mutations: ["createFeedback"]) @aws_api_key @aws_iam
+  onUpdateFeedback(filter: ModelSubscriptionFeedbackFilterInput): Feedback @aws_subscribe(mutations: ["updateFeedback"]) @aws_api_key @aws_iam
+  onDeleteFeedback(filter: ModelSubscriptionFeedbackFilterInput): Feedback @aws_subscribe(mutations: ["deleteFeedback"]) @aws_api_key @aws_iam
+  onCreatePet(filter: ModelSubscriptionPetFilterInput): Pet @aws_subscribe(mutations: ["createPet"]) @aws_api_key @aws_iam
+  onUpdatePet(filter: ModelSubscriptionPetFilterInput): Pet @aws_subscribe(mutations: ["updatePet"]) @aws_api_key @aws_iam
+  onDeletePet(filter: ModelSubscriptionPetFilterInput): Pet @aws_subscribe(mutations: ["deletePet"]) @aws_api_key @aws_iam
+  onCreateEvent(filter: ModelSubscriptionEventFilterInput): Event @aws_subscribe(mutations: ["createEvent"]) @aws_api_key @aws_iam
+  onUpdateEvent(filter: ModelSubscriptionEventFilterInput): Event @aws_subscribe(mutations: ["updateEvent"]) @aws_api_key @aws_iam
+  onDeleteEvent(filter: ModelSubscriptionEventFilterInput): Event @aws_subscribe(mutations: ["deleteEvent"]) @aws_api_key @aws_iam
+  onCreateUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["createUser"]) @aws_api_key @aws_iam
+  onUpdateUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["updateUser"]) @aws_api_key @aws_iam
+  onDeleteUser(filter: ModelSubscriptionUserFilterInput): User @aws_subscribe(mutations: ["deleteUser"]) @aws_api_key @aws_iam
+  onCreateFamilies(filter: ModelSubscriptionFamiliesFilterInput): Families @aws_subscribe(mutations: ["createFamilies"]) @aws_api_key @aws_iam
+  onUpdateFamilies(filter: ModelSubscriptionFamiliesFilterInput): Families @aws_subscribe(mutations: ["updateFamilies"]) @aws_api_key @aws_iam
+  onDeleteFamilies(filter: ModelSubscriptionFamiliesFilterInput): Families @aws_subscribe(mutations: ["deleteFamilies"]) @aws_api_key @aws_iam
+}
+
+type ModelPetConnection @aws_api_key @aws_iam {
+  items: [Pet]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelPetFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  familiesID: ModelIDInput
+  and: [ModelPetFilterInput]
+  or: [ModelPetFilterInput]
+  not: ModelPetFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelPetConditionInput {
+  Name: ModelStringInput
+  familiesID: ModelIDInput
+  and: [ModelPetConditionInput]
+  or: [ModelPetConditionInput]
+  not: ModelPetConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreatePetInput {
+  id: ID
+  Name: String
+  familiesID: ID!
+  _version: Int
+}
+
+input UpdatePetInput {
+  id: ID!
+  Name: String
+  familiesID: ID
+  _version: Int
+}
+
+input DeletePetInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionPetFilterInput {
+  id: ModelSubscriptionIDInput
+  Name: ModelSubscriptionStringInput
+  familiesID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionPetFilterInput]
+  or: [ModelSubscriptionPetFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelEventConnection @aws_api_key @aws_iam {
+  items: [Event]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelEventFilterInput {
+  id: ModelIDInput
+  Num1: ModelBooleanInput
+  Num2: ModelBooleanInput
+  Description: ModelStringInput
+  familiesID: ModelIDInput
+  and: [ModelEventFilterInput]
+  or: [ModelEventFilterInput]
+  not: ModelEventFilterInput
+  _deleted: ModelBooleanInput
+  eventPetId: ModelIDInput
+}
+
+input ModelEventConditionInput {
+  Num1: ModelBooleanInput
+  Num2: ModelBooleanInput
+  Description: ModelStringInput
+  familiesID: ModelIDInput
+  and: [ModelEventConditionInput]
+  or: [ModelEventConditionInput]
+  not: ModelEventConditionInput
+  _deleted: ModelBooleanInput
+  eventPetId: ModelIDInput
+}
+
+input CreateEventInput {
+  id: ID
+  Num1: Boolean
+  Num2: Boolean
+  Description: String
+  familiesID: ID!
+  _version: Int
+  eventPetId: ID
+}
+
+input UpdateEventInput {
+  id: ID!
+  Num1: Boolean
+  Num2: Boolean
+  Description: String
+  familiesID: ID
+  _version: Int
+  eventPetId: ID
+}
+
+input DeleteEventInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionEventFilterInput {
+  id: ModelSubscriptionIDInput
+  Num1: ModelSubscriptionBooleanInput
+  Num2: ModelSubscriptionBooleanInput
+  Description: ModelSubscriptionStringInput
+  familiesID: ModelSubscriptionIDInput
+  and: [ModelSubscriptionEventFilterInput]
+  or: [ModelSubscriptionEventFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelUserConnection @aws_api_key @aws_iam {
+  items: [User]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelUserFilterInput {
+  id: ModelIDInput
+  Name: ModelStringInput
+  familiesID: ModelIDInput
+  Email: ModelStringInput
+  and: [ModelUserFilterInput]
+  or: [ModelUserFilterInput]
+  not: ModelUserFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelUserConditionInput {
+  Name: ModelStringInput
+  familiesID: ModelIDInput
+  Email: ModelStringInput
+  and: [ModelUserConditionInput]
+  or: [ModelUserConditionInput]
+  not: ModelUserConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateUserInput {
+  id: ID
+  Name: String
+  familiesID: ID!
+  Email: String
+  _version: Int
+}
+
+input UpdateUserInput {
+  id: ID!
+  Name: String
+  familiesID: ID
+  Email: String
+  _version: Int
+}
+
+input DeleteUserInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionUserFilterInput {
+  id: ModelSubscriptionIDInput
+  Name: ModelSubscriptionStringInput
+  familiesID: ModelSubscriptionIDInput
+  Email: ModelSubscriptionStringInput
+  and: [ModelSubscriptionUserFilterInput]
+  or: [ModelSubscriptionUserFilterInput]
+  _deleted: ModelBooleanInput
+}
+
+type ModelFamiliesConnection @aws_api_key @aws_iam {
+  items: [Families]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelFamiliesFilterInput {
+  id: ModelIDInput
+  Family_Name: ModelStringInput
+  and: [ModelFamiliesFilterInput]
+  or: [ModelFamiliesFilterInput]
+  not: ModelFamiliesFilterInput
+  _deleted: ModelBooleanInput
+}
+
+input ModelFamiliesConditionInput {
+  Family_Name: ModelStringInput
+  and: [ModelFamiliesConditionInput]
+  or: [ModelFamiliesConditionInput]
+  not: ModelFamiliesConditionInput
+  _deleted: ModelBooleanInput
+}
+
+input CreateFamiliesInput {
+  id: ID
+  Family_Name: String
+  _version: Int
+}
+
+input UpdateFamiliesInput {
+  id: ID!
+  Family_Name: String
+  _version: Int
+}
+
+input DeleteFamiliesInput {
+  id: ID!
+  _version: Int
+}
+
+input ModelSubscriptionFamiliesFilterInput {
+  id: ModelSubscriptionIDInput
+  Family_Name: ModelSubscriptionStringInput
+  and: [ModelSubscriptionFamiliesFilterInput]
+  or: [ModelSubscriptionFamiliesFilterInput]
+  _deleted: ModelBooleanInput
+}

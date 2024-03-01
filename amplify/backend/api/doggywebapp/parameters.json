@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "doggywebapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2023-07-10T05:50:59.816Z"
+}

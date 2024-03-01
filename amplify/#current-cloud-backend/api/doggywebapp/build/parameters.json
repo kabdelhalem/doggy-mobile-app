@@ -1,0 +1,13 @@
+{
+    "AppSyncApiName": "doggywebapp",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "S3DeploymentBucket": "amplify-doggywebapp-dev-10704-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/9779d3ac60c945f3ec2f14f29298a77602f6257b"
+}

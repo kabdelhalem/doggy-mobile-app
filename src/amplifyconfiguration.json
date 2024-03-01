@@ -1,0 +1,45 @@
+{
+  "aws_project_region": "us-east-1",
+  "aws_appsync_graphqlEndpoint": "https://ovyjtq2cmfetljgw24xin6l4um.appsync-api.us-east-1.amazonaws.com/graphql",
+  "aws_appsync_region": "us-east-1",
+  "aws_appsync_authenticationType": "API_KEY",
+  "aws_appsync_apiKey": "da2-kr7h7yhm4nglrlzswnrf4h6rba",
+  "aws_cognito_identity_pool_id": "us-east-1:923c7501-0c7e-4abe-b945-a87106ba35c0",
+  "aws_cognito_region": "us-east-1",
+  "aws_user_pools_id": "us-east-1_d9H50UpPV",
+  "aws_user_pools_web_client_id": "3tre4esungbim6a99bi664as38",
+  "oauth": {
+    "domain": "a9jvecyprpc2-dev.auth.us-east-1.amazoncognito.com",
+    "scope": [
+      "phone",
+      "email",
+      "openid",
+      "profile",
+      "aws.cognito.signin.user.admin"
+    ],
+    "redirectSignIn": "exp://192.168.1.9:8081/,myapp://",
+    "redirectSignOut": "exp://192.168.1.9:8081/,myapp://",
+    "responseType": "code"
+  },
+  "federationTarget": "COGNITO_USER_POOLS",
+  "aws_cognito_username_attributes": [
+    "EMAIL"
+  ],
+  "aws_cognito_social_providers": [
+    "APPLE"
+  ],
+  "aws_cognito_signup_attributes": [
+    "EMAIL"
+  ],
+  "aws_cognito_mfa_configuration": "OFF",
+  "aws_cognito_mfa_types": [
+    "SMS"
+  ],
+  "aws_cognito_password_protection_settings": {
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": []
+  },
+  "aws_cognito_verification_mechanisms": [
+    "EMAIL"
+  ]
+}
