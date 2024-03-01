@@ -3,7 +3,7 @@
     "name": "Milou: A Dog Tracking App",
     "slug": "milou-a-dog-tracking-app",
     "privacy": "public",
-    "version": "1.1.2",
+    "version": "1.1.3s",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
